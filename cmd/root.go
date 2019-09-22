@@ -26,6 +26,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -41,7 +42,7 @@ var mediaFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "subs2srs <subsfile>",
+	Use:   "subs2srs <subsfile1> [subsfile2]",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
@@ -50,18 +51,31 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 
-	Args: cobra.ExactArgs(1),
+	Args: argFuncs(cobra.MinimumNArgs(1), cobra.MaximumNArgs(2)),
 	Run: func(cmd *cobra.Command, args []string) {
-		subsFile := args[0]
+		var subsFile1, subsFile2 string
+		var subs2 *subs.Subtitles
+		var err error
 
-		subs, err := subs.OpenFile(subsFile)
+		subsFile1 = args[0]
+
+		if len(args) > 0 {
+			subsFile2 = args[1]
+			subs2, err = subs.OpenFile(subsFile2)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "error: can't read translated subtitles: %v\n", err)
+				os.Exit(1)
+			}
+		}
+
+		subs1, err := subs.OpenFile(subsFile1)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "error: can't read subtitles: %v\n", err)
+			fmt.Fprintf(os.Stderr, "error: can't read original subtitles: %v\n", err)
 			os.Exit(1)
 		}
 
-		subsBase := strings.TrimSuffix(path.Base(subsFile), path.Ext(subsFile))
-		outFile := path.Join(path.Dir(subsFile), subsBase+".tsv")
+		subsBase := strings.TrimSuffix(path.Base(subsFile1), path.Ext(subsFile1))
+		outFile := path.Join(path.Dir(subsFile1), subsBase+".tsv")
 		outStream, err := os.Create(outFile)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "can't create output file: %s: %v", outFile, err)
@@ -76,26 +90,44 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 
-		for _, s := range subs.Items {
+		for _, item := range subs1.Items {
+			mediaSource := subsBase
+			expression := joinLines(item.String())
+			fmt.Fprintf(outStream, "%s\t%s", mediaSource, expression)
+
+			if subs2 != nil {
+				expression2 := ""
+				if item2 := subs2.Translate(item); item2 != nil {
+					expression2 = joinLines(item2.String())
+				}
+				fmt.Fprintf(outStream, "\t%s", expression2)
+			}
+
 			if mediaFile != "" {
-				audioFile, err := media.ExtractAudio(s.StartAt, s.EndAt, mediaFile, mediaPrefix)
+				leadTime := 100 * time.Millisecond
+				startAt := item.StartAt - leadTime
+				if startAt < 0 {
+					startAt = item.StartAt
+				}
+
+				audioFile, err := media.ExtractAudio(startAt, item.EndAt, mediaFile, mediaPrefix)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "error: can't extract audio: %v\n", err)
 					os.Exit(1)
 				}
 
-				imageFile, err := media.ExtractImage(s.StartAt, s.EndAt, mediaFile, mediaPrefix)
+				imageFile, err := media.ExtractImage(item.StartAt, item.EndAt, mediaFile, mediaPrefix)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "error: can't extract image: %v\n", err)
 					os.Exit(1)
 				}
 
-				mediaSource := subsBase
-				expression := s.String()
 				meaning := fmt.Sprintf("<img src=\"%s\">", path.Base(imageFile))
 				audio := fmt.Sprintf("[sound:%s]", path.Base(audioFile))
-				fmt.Fprintf(outStream, "%s\t%s\t%s\t%s\n", mediaSource, expression, meaning, audio)
+				fmt.Fprintf(outStream, "\t%s\t%s", meaning, audio)
 			}
+
+			fmt.Fprintf(outStream, "\n")
 		}
 
 		outStream.Close()
@@ -142,4 +174,22 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+// https://github.com/spf13/cobra/issues/648#issuecomment-393154805
+func argFuncs(funcs ...cobra.PositionalArgs) cobra.PositionalArgs {
+	return func(cmd *cobra.Command, args []string) error {
+		for _, f := range funcs {
+			err := f(cmd, args)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+}
+
+func joinLines(s string) string {
+	s = strings.Replace(s, "\t", " ", -1)
+	return strings.Replace(s, "\n", " ", -1)
 }
