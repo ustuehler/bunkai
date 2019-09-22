@@ -8,6 +8,10 @@ import (
 )
 
 func ffmpegExtractAudio(startAt, endAt time.Duration, inFile string, outFile string) error {
+	if exists(outFile) {
+		return nil
+	}
+
 	inArgs := []string{
 		"-ss", ffmpegPosition(startAt),
 		"-i", inFile,
@@ -31,6 +35,10 @@ func ffmpegExtractAudio(startAt, endAt time.Duration, inFile string, outFile str
 }
 
 func ffmpegExtractImage(startAt, endAt time.Duration, inFile string, outFile string) error {
+	if exists(outFile) {
+		return nil
+	}
+
 	var frameAt = startAt
 	if endAt > startAt {
 		frameAt = startAt + (endAt-startAt)/2
@@ -76,4 +84,9 @@ func ffmpeg(arg ...string) error {
 	}
 
 	return nil
+}
+
+func exists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
 }
