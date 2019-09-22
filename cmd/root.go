@@ -90,13 +90,18 @@ to quickly create a Cobra application.`,
 					os.Exit(1)
 				}
 
-				startPos := media.TimePosition(s.StartAt)
-				endPos := media.TimePosition(s.EndAt)
+				mediaSource := subsBase
+				mediaStart := media.TimePosition(s.StartAt)
+				mediaEnd := media.TimePosition(s.EndAt)
 				if s.EndAt <= s.StartAt {
-					endPos = ""
+					mediaEnd = ""
 				}
 
-				fmt.Fprintf(outStream, "%s\t%s\t%s\t<img src=\"%s\">\t[sound:%s]\t%s\n", subsBase, startPos, endPos, path.Base(imageFile), path.Base(audioFile), s)
+				audio := fmt.Sprintf("[sound:%s]", path.Base(audioFile))
+				meaning := fmt.Sprintf("<img src=\"%s\">", path.Base(imageFile))
+				expression := s.String()
+
+				fmt.Fprintf(outStream, "%s\t%s\t%s\t%s\t%s\t%s\n", mediaSource, mediaStart, mediaEnd, audio, meaning, expression)
 			}
 		}
 
