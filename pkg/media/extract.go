@@ -11,7 +11,7 @@ import (
 // either startAt or endAt is 0, then the start or end of the media is assumed,
 // accordingly.
 func ExtractAudio(startAt, endAt time.Duration, inFile, outPrefix string) (string, error) {
-	outFile := fmt.Sprintf("%s_%s-%s.mp3", outPrefix, TimePosition(startAt), TimePosition(endAt))
+	outFile := fmt.Sprintf("%s_%s-%s.mp3", outPrefix, pathPosition(startAt), pathPosition(endAt))
 	return outFile, ffmpegExtractAudio(startAt, endAt, inFile, outFile)
 }
 
@@ -20,13 +20,13 @@ func ExtractAudio(startAt, endAt time.Duration, inFile, outPrefix string) (strin
 // given prefix, time range and audio format. If either startAt or endAt is 0,
 // then the start or end of the media is assumed, accordingly.
 func ExtractImage(startAt, endAt time.Duration, inFile, outPrefix string) (string, error) {
-	outFile := fmt.Sprintf("%s_%s-%s.jpg", outPrefix, TimePosition(startAt), TimePosition(endAt))
+	outFile := fmt.Sprintf("%s_%s-%s.jpg", outPrefix, pathPosition(startAt), pathPosition(endAt))
 	return outFile, ffmpegExtractImage(startAt, endAt, inFile, outFile)
 }
 
-// TimePosition formats the given time.Duration as a typical time position code
-// for video and audio streams.
-func TimePosition(d time.Duration) string {
+// pathPosition formats the given time.Duration as a time code which can safely
+// be used in file names on all platforms.
+func pathPosition(d time.Duration) string {
 	h := d / time.Hour
 	d -= h * time.Hour
 	m := d / time.Minute
@@ -34,5 +34,5 @@ func TimePosition(d time.Duration) string {
 	s := d / time.Second
 	d -= s * time.Second
 	ms := d / time.Millisecond
-	return fmt.Sprintf("%02d:%02d:%02d.%03d", h, m, s, ms)
+	return fmt.Sprintf("%02dh%02dm%02ds%03dms", h, m, s, ms)
 }
