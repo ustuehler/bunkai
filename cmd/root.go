@@ -1,24 +1,3 @@
-/*
-Copyright © 2019 Uwe Stuehler <uwe@bsdx.de>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
 package cmd
 
 import (
@@ -32,8 +11,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/ustuehler/subs2srs/pkg/media"
-	"github.com/ustuehler/subs2srs/pkg/subs"
+	"github.com/ustuehler/bunkai/pkg/media"
+	"github.com/ustuehler/bunkai/pkg/subs"
 )
 
 var cfgFile string
@@ -42,7 +21,7 @@ var mediaFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "subs2srs <subsfile1> [subsfile2]",
+	Use:   "bunkai <subsfile1> [subsfile2]",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
@@ -146,7 +125,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.subs2srs.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.bunkai.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&mediaFile, "mediafile", "m", "", "media file to extract audio from")
 }
 
@@ -165,7 +144,7 @@ func initConfig() {
 
 		// Search config in home directory with name ".subs2srs" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".subs2srs")
+		viper.SetConfigName(".bunkai")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

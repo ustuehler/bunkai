@@ -1,17 +1,23 @@
-#  subs2srs
-> Extracts sentences from media files for importing into an SRS
+# bunkai
+> Decompose media subtitles into study material for language learning
 
-The original subs2srs program is an excellent tool for sentence mining, but it
-requires user interaction and an emulator or virtual machine if you're not
-already running Windows.
+Bunkai (分解), literally means "analysis" or "disassembly" in Japanese. The main purpose of the **bunkai** command-line tool is to generate flash cards for a Spaced Repetition System (SRS), e.g., Anki, from media content and corresponding subtitles. It is inspired by an article on [Sentence Mining](https://massimmersionapproach.com/table-of-contents/stage-1/jp-quickstart-guide/#sentence-mining), as well as existing tools (see [Known alternatives](#known-alternatives), below).
 
-## Dependencies
-- `ffmpeg` command in `PATH`
+## Requirements
+- `go` command in `PATH` (only at installation time)
+- `ffmpeg` command in `PATH` (used at runtime)
 
 ## Installation
-
 ```bash
-go get github.com/ustuehler/subs2srs
+go get github.com/ustuehler/bunkai
 ```
 
-**NB:** The above only
+## Change log
+See the file [CHANGELOG.md](CHANGELOG.md).
+
+## License
+See the file [LICENSE](LICENSE).
+
+## Known alternatives
+- subs2srs
+- substudy
