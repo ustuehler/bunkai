@@ -10,7 +10,7 @@ type Subtitles struct {
 }
 
 // OpenFile opens the given subtitles file for reading.
-func OpenFile(filename string) (*Subtitles, error) {
+func OpenFile(filename string, clean bool) (*Subtitles, error) {
 	subs, err := astisub.OpenFile(filename)
 	if err != nil {
 		return nil, err
