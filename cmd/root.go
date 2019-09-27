@@ -17,14 +17,19 @@ var mediaFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "bunkai <subsfile1> [subsfile2]",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Use:   "bunkai <foreign-subs> [native-subs]",
+	Short: "Decomposes media with subtitles into flash cards",
+	Long: `Bunkai generates flash cards for an SRS like Anki from subtitles and
+optional associated media content.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Example:
+  bunkai -m media-content.mp4 foreign.srt native.srt
+
+Based on the given subtitle files and associated media file, the above
+command would create the tab-separated file "foreign.tsv" and a directory
+"foreign.media/" containing images and audio files. Among other fields,
+"foreign.tsv" would have a current, previous and next subtitle item from
+both subtitle files, but the timing reference would be "foreign.srt".`,
 
 	Args: argFuncs(cobra.MinimumNArgs(1), cobra.MaximumNArgs(2)),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -63,7 +68,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.bunkai.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&mediaFile, "mediafile", "m", "", "media file to extract audio from")
+	rootCmd.PersistentFlags().StringVarP(&mediaFile, "mediafile", "m", "", "media file associated with subtitles")
 }
 
 // initConfig reads in config file and ENV variables if set.
