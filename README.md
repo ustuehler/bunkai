@@ -67,6 +67,12 @@ See the file [CHANGELOG.md](CHANGELOG.md).
 ## License
 See the file [LICENSE](LICENSE).
 
+## Subtitle editors
+| Name | Platforms |
+| ---- | --------- |
+| [Aegisub](http://www.aegisub.org/) | macOS and more |
+| [Jubler](https://www.jubler.org/) | macOS and more |
+
 ## Known alternatives
 - [substudy](https://github.com/emk/subtitles-rs/tree/master/substudy)
 - [subs2srs](http://subs2srs.sourceforge.net/)
