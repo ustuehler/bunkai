@@ -18,6 +18,11 @@ might want to check out as well.
 - **Media files are optional**: Requires only a single foreign subtitles file to
   generate text-only flash cards. Associated media content is optional, but
   highly recommended.
+- **Multiple subtitle formats**: Any format which is supported by [go-astisub][5]
+  is also supported by this application, although some formats may work slightly
+  better than others. If in doubt, try to use `.srt` subtitles.
+
+[5]: https://github.com/asticode/go-astisub
 
 ## Usage
 Bunkai is mainly used to generate flash cards from one or two subtitle files
@@ -26,7 +31,7 @@ and a corresponding media file.
 For example:
 
 ```bash
-bunkai -m media-content.mp4 foreign.srt native.srt
+bunkai export cards -m media-content.mp4 foreign.srt native.srt
 ```
 
 The above command generates the tab-separated file `foreign.tsv` and a
