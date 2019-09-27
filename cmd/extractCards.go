@@ -5,18 +5,17 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-
-	"github.com/ustuehler/bunkai/pkg/export"
+	"github.com/ustuehler/bunkai/pkg/extract"
 )
 
-var exportCardsCmd = &cobra.Command{
+var extractCardsCmd = &cobra.Command{
 	Use:   "cards <foreign-subs> [native-subs]",
 	Short: "Decompose media into flash cards",
 	Long: `This command generates flash cards for an SRS application like
 Anki from subtitles and optional associated media content.
 
 Example:
-  bunkai export cards -m media-content.mp4 foreign.srt native.srt
+  bunkai extract cards -m media-content.mp4 foreign.srt native.srt
 
 Based on the given subtitle files and associated media file, the above
 command would create the tab-separated file "foreign.tsv" and a directory
@@ -34,7 +33,7 @@ both subtitle files, but the timing reference would be "foreign.srt".`,
 			nativeSubs = args[1]
 		}
 
-		action := export.CSVExport{
+		action := extract.ExtractCards{
 			ForeignSubtitlesFile: foreignSubs,
 			NativeSubtitlesFile:  nativeSubs,
 			MediaSourceFile:      mediaFile,
@@ -50,7 +49,7 @@ both subtitle files, but the timing reference would be "foreign.srt".`,
 }
 
 func init() {
-	exportCmd.AddCommand(exportCardsCmd)
+	extractCmd.AddCommand(extractCardsCmd)
 }
 
 // https://github.com/spf13/cobra/issues/648#issuecomment-393154805

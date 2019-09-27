@@ -31,7 +31,7 @@ and a corresponding media file.
 For example:
 
 ```bash
-bunkai export cards -m media-content.mp4 foreign.srt native.srt
+bunkai extract cards -m media-content.mp4 foreign.srt native.srt
 ```
 
 The above command generates the tab-separated file `foreign.tsv` and a

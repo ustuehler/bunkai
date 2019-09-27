@@ -1,4 +1,4 @@
-package export
+package extract
 
 import (
 	"fmt"
@@ -9,9 +9,9 @@ import (
 	"github.com/ustuehler/bunkai/pkg/subs"
 )
 
-// CSVExport specifies the parameters for generating a CSV export of the given
+// ExtractCards specifies the parameters for generating a CSV export of the given
 // foreign subtitles. The fields NativeSubtitles and MediaSource are optional.
-type CSVExport struct {
+type ExtractCards struct {
 	ForeignSubtitlesFile string
 	NativeSubtitlesFile  string
 	MediaSourceFile      string
@@ -19,7 +19,7 @@ type CSVExport struct {
 	OutputFileExtension  string // defaults to ".tsv" for "\t" and ".csv", otherwise
 }
 
-func (e *CSVExport) setDefaults() {
+func (e *ExtractCards) setDefaults() {
 	if e.OutputFieldSeparator == "" {
 		e.OutputFieldSeparator = "\t"
 	}
@@ -34,19 +34,19 @@ func (e *CSVExport) setDefaults() {
 	}
 }
 
-func (e *CSVExport) outputBase() string {
+func (e *ExtractCards) outputBase() string {
 	return strings.TrimSuffix(path.Base(e.ForeignSubtitlesFile), path.Ext(e.ForeignSubtitlesFile))
 }
 
-func (e *CSVExport) outputFile() string {
+func (e *ExtractCards) outputFile() string {
 	return path.Join(path.Dir(e.ForeignSubtitlesFile), e.outputBase()+"."+e.OutputFileExtension)
 }
 
-func (e *CSVExport) mediaOutputDir() string {
+func (e *ExtractCards) mediaOutputDir() string {
 	return path.Join(path.Dir(e.ForeignSubtitlesFile), e.outputBase()+".media")
 }
 
-func (e *CSVExport) Execute() error {
+func (e *ExtractCards) Execute() error {
 	var nativeSubs *subs.Subtitles
 
 	e.setDefaults()

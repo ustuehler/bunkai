@@ -19,7 +19,7 @@ var rootCmd = &cobra.Command{
 media content into flash cards for an SRS application like Anki.
 
 Example:
-  bunkai export cards -m media-content.mp4 foreign.srt native.srt`,
+  bunkai extract cards -m media-content.mp4 foreign.srt native.srt`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

@@ -1,4 +1,4 @@
-package export
+package extract
 
 import (
 	"fmt"
