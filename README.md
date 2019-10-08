@@ -84,12 +84,6 @@ regular deck for studying the language on a daily basis.
 
 For other uses, run `bunkai --help` to view the built-in documentation.
 
-## Change log
-See the file [CHANGELOG.md](CHANGELOG.md).
-
-## License
-[MIT](LICENSE)
-
 ## Subtitle editors
 The state of affairs when it comes to open-source subtitle editors is a sad
 one, but here's a list of editors which may or may not work passably. If you
@@ -107,3 +101,9 @@ not even have started Bunkai, had I seen it a bit earlier. :)
 
 - [substudy](https://github.com/emk/subtitles-rs/tree/master/substudy): CLI alternative to subs2srs with the ability to export into other formats as well, not just SRS decks
 - [subs2srs](http://subs2srs.sourceforge.net/): GUI software for Windows with many features, and inspiration for substudy and Bunkai
+
+## Change log
+See the file [CHANGELOG.md](CHANGELOG.md).
+
+## License
+[MIT](LICENSE)
