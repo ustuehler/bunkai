@@ -54,7 +54,25 @@ The above command generates the tab-separated file `foreign.tsv` and a
 corresponding directory `foreign.media/` containing the associated images and
 audio files. To do sentence mining, import the file `foreign.tsv` into a new
 deck and then, at least in the case of Anki, copy the media files manually into
-Anki's media directory.
+Anki's [collection.media directory](https://apps.ankiweb.net/docs/manual.html#file-locations).
+
+Before you can import the deck with Anki though, you must add a new
+[Note Type](https://apps.ankiweb.net/docs/manual.html#adding-a-note-type)
+which includes some or all of the fields below on the front and/or back of
+each card. The columns in the generated `.tsv` file are as follows:
+
+| # | Name | Description |
+| - | ---- | ----------- |
+| 1 | Sound | Extracted audio as a `[sound]` tag for Anki |
+| 2 | Time | Subtitle start time code as a string |
+| 3 | Source | Base name of the subtitle source file |
+| 4 | Image | Selected image frame as an `<img>` tag |
+| 5 | ForeignCurr | Current text in foreign subtitles file |
+| 6 | NativeCurr | Current text in native subtitles file |
+| 7 | ForeignPrev | Previous text in foreign subtitles file |
+| 8 | NativePrev | Previous text in native subtitles file |
+| 9 | ForeignNext | Next text in foreign subtitles file |
+| 10 | NativeNext | Next text in native subtitles file |
 
 When you review the created deck for the first time, you should go quickly
 through the entire deck at once. During this first pass, your goal should be
