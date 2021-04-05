@@ -57,7 +57,7 @@ deck and then, at least in the case of Anki, copy the media files manually into
 Anki's [collection.media directory](https://apps.ankiweb.net/docs/manual.html#file-locations).
 
 Before you can import the deck with Anki though, you must add a new
-[Note Type](https://apps.ankiweb.net/docs/manual.html#adding-a-note-type)
+[Note Type](https://docs.ankiweb.net/#/editing?id=adding-a-note-type)
 which includes some or all of the fields below on the front and/or back of
 each card. The columns in the generated `.tsv` file are as follows:
 
