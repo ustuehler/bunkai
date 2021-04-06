@@ -95,13 +95,10 @@ know a good one, please let me know!
 | [Jubler](https://www.jubler.org/) | macOS & others | Works reasonably well, but fixing timing issues is still somewhat cumbersome. |
 
 ## Known alternatives
-There are at least three alternatives to this application that I know of, by
-now. Oddly enough, I found substudy just after the prototype and movies2anki
-when I published this repository. Something is off with my search skills! :)
-
 - [movies2anki](https://github.com/kelciour/movies2anki]): Fully-integrated add-on for Anki which has some advanced features and supports all platforms
-- [substudy](https://github.com/emk/subtitles-rs/tree/master/substudy): CLI alternative to subs2srs with the ability to export into other formats as well, not just SRS decks
+- [subs2cia](https://github.com/dxing97/subs2cia): Condensed Immersive Audiovisual media generator from subtitles for language learning
 - [subs2srs](http://subs2srs.sourceforge.net/): GUI software for Windows with many features, and inspiration for substudy and Bunkai
+- [substudy](https://github.com/emk/subtitles-rs/tree/master/substudy): CLI alternative to subs2srs with the ability to export into other formats as well, not just SRS decks
 
 ## Change log
 See the file [CHANGELOG.md](CHANGELOG.md).
