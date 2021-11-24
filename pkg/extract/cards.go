@@ -46,6 +46,15 @@ func (e *ExtractCards) mediaOutputDir() string {
 	return path.Join(path.Dir(e.ForeignSubtitlesFile), e.outputBase()+".media")
 }
 
+func escape(s string) string {
+	// https://datatracker.ietf.org/doc/html/rfc4180.html#section-2
+	if strings.Contains(s, `"`) || strings.Contains(s, "\t") || strings.Contains(s, "\n") {
+		var quoted = strings.ReplaceAll(s, `"`, `""`)
+		return fmt.Sprintf(`"%s"`, quoted)
+	}
+	return s
+}
+
 func (e *ExtractCards) Execute() error {
 	var nativeSubs *subs.Subtitles
 
@@ -78,16 +87,16 @@ func (e *ExtractCards) Execute() error {
 	}
 
 	return ExportItems(foreignSubs, nativeSubs, e.outputBase(), e.MediaSourceFile, mediaPrefix, func(item *ExportedItem) error {
-		fmt.Fprintf(outStream, "%s\t", item.Sound)
-		fmt.Fprintf(outStream, "%s\t", item.Time)
-		fmt.Fprintf(outStream, "%s\t", item.Source)
-		fmt.Fprintf(outStream, "%s\t", item.Image)
-		fmt.Fprintf(outStream, "%s\t", item.ForeignCurr)
-		fmt.Fprintf(outStream, "%s\t", item.NativeCurr)
-		fmt.Fprintf(outStream, "%s\t", item.ForeignPrev)
-		fmt.Fprintf(outStream, "%s\t", item.NativePrev)
-		fmt.Fprintf(outStream, "%s\t", item.ForeignNext)
-		fmt.Fprintf(outStream, "%s\n", item.NativeNext)
+		fmt.Fprintf(outStream, "%s\t", escape(item.Sound))
+		fmt.Fprintf(outStream, "%s\t", escape(item.Time))
+		fmt.Fprintf(outStream, "%s\t", escape(item.Source))
+		fmt.Fprintf(outStream, "%s\t", escape(item.Image))
+		fmt.Fprintf(outStream, "%s\t", escape(item.ForeignCurr))
+		fmt.Fprintf(outStream, "%s\t", escape(item.NativeCurr))
+		fmt.Fprintf(outStream, "%s\t", escape(item.ForeignPrev))
+		fmt.Fprintf(outStream, "%s\t", escape(item.NativePrev))
+		fmt.Fprintf(outStream, "%s\t", escape(item.ForeignNext))
+		fmt.Fprintf(outStream, "%s\n", escape(item.NativeNext))
 		return nil
 	})
 }
